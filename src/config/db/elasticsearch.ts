@@ -19,12 +19,12 @@ const testConnection = async (client: Client) => {
   }
 };
 
+const client = createElasticsearchClient(
+  process.env.ELASTICSEARCH_URL || "http://localhost:9200"
+);
+
 // Initialize Elasticsearch connection and handle failures at app startup
 export const initializeElasticsearchConnection = async () => {
-  const client = createElasticsearchClient(
-    process.env.ELASTICSEARCH_URL || "http://localhost:9200"
-  );
-
   // Attempt to connect once at startup
   const isConnected = await testConnection(client);
   if (!isConnected) {
@@ -32,3 +32,5 @@ export const initializeElasticsearchConnection = async () => {
     process.exit(1); // Exit if connection fails
   }
 };
+// Export the client for use in other parts of the application
+export { client };
