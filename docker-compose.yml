@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.17.4
@@ -35,4 +33,4 @@ volumes:
 
 networks:
   elastic:
-    name: elastic
+    driver: bridge
