@@ -1,9 +1,11 @@
+import "dotenv/config";
 import express, { Request, Response } from "express";
 
 import {
   client,
   initializeElasticsearchConnection,
 } from "./config/db/elasticsearch";
+import logger from "./utils/logger";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +17,7 @@ initializeElasticsearchConnection();
 app.use(express.json());
 
 app.get("/", (_req, res) => {
+  logger.info("Hello, Express + TypeScript!");
   res.json({ message: "Hello, Express + TypeScript!" });
 });
 
@@ -50,5 +53,5 @@ app.post("/insert", async (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  logger.info(`Server running on http://localhost:${PORT}`);
 });
