@@ -2,7 +2,10 @@ filebeat.inputs:
   - type: log
     enabled: true
     paths:
-      - /logs/*.log*
+      - /logs/*.log
+    fields:
+      log_type: express-app
+    fields_under_root: true
     json.keys_under_root: true
     json.add_error_key: true
     json.message_key: message
@@ -15,11 +18,11 @@ filebeat.modules:
       enabled: true
 
 output.elasticsearch:
-  hosts: ["elasticsearch:9200"]
+  hosts: ["es01:9200"]
   indices:
     - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
 
 setup.kibana:
-  host: "kibana:5601"
+  host: "kib01:5601"
 
 logging.level: info
