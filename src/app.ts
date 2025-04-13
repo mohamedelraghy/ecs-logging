@@ -3,7 +3,6 @@ import express, { Request, Response } from "express";
 
 import client from "./config/db/elasticsearch";
 import routes from "./routes";
-import logger from "./utils/logger";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,5 +44,5 @@ app.post("/insert", async (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  logger.info(`test Server running on http://localhost:${PORT} user: `);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
