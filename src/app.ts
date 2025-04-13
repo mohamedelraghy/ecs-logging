@@ -1,25 +1,17 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
 
-import {
-  client,
-  initializeElasticsearchConnection,
-} from "./config/db/elasticsearch";
+import client from "./config/db/elasticsearch";
+import routes from "./routes";
 import logger from "./utils/logger";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize the Elasticsearch connection at app startup
-initializeElasticsearchConnection();
-
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-app.get("/", (_req, res) => {
-  logger.info("Hello, Express + TypeScript!");
-  res.json({ message: "Hello, Express + TypeScript!" });
-});
+app.use("/api/v1", routes);
 
 // Endpoint to insert a record into Elasticsearch
 app.post("/insert", async (req: Request, res: Response) => {
@@ -53,5 +45,5 @@ app.post("/insert", async (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  logger.info(`Server running on http://localhost:${PORT}`);
+  logger.info(`test Server running on http://localhost:${PORT} user: `);
 });

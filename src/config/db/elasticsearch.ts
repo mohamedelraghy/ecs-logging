@@ -25,18 +25,19 @@ const testConnection = async (client: Client, retries = 5, delay = 3000) => {
   console.error("❌ Failed to connect to Elasticsearch after retries.");
   return false;
 };
+
 const client = createElasticsearchClient(
   process.env.ELASTICSEARCH_URL || "http://es01:9200"
 );
 
 // Initialize Elasticsearch connection and handle failures at app startup
-export const initializeElasticsearchConnection = async () => {
-  // Attempt to connect once at startup
-  const isConnected = await testConnection(client);
-  if (!isConnected) {
-    console.error("Failed to connect to Elasticsearch. Exiting application.");
-    process.exit(1); // Exit if connection fails
-  }
-};
+// export const initializeElasticsearchConnection = async () => {
+//   // Attempt to connect once at startup
+//   const isConnected = await testConnection(client);
+//   if (!isConnected) {
+//     console.error("Failed to connect to Elasticsearch. Exiting application.");
+//     process.exit(1); // Exit if connection fails
+//   }
+// };
 // Export the client for use in other parts of the application
-export { client };
+export default client;
