@@ -2,9 +2,9 @@ import "dotenv/config";
 import express, { Request, Response } from "express";
 import { createServer } from "http";
 
+import client from "./config/db/elasticsearch";
 import routes from "./routes";
 import { initWebSocketServer } from "./websocket";
-import client from "./config/db/elasticsearch";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
