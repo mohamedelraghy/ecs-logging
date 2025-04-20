@@ -18,11 +18,14 @@ filebeat.modules:
       enabled: true
 
 output.elasticsearch:
-  hosts: ["es01:9200"]
+  hosts:
+    ["https://993932b7dc704256a38e27292d46ffb3.us-central1.gcp.cloud.es.io:443"]
+  username: "elastic"
+  password: "S9WjLRWpwnOpqoyJis1LCzIq"
   indices:
     - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
 
 setup.kibana:
-  host: "kib01:5601"
+  host: "http://kib01:5601"
 
 logging.level: info
