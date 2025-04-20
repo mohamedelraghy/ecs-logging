@@ -27,8 +27,10 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
+      - path.repo=/usr/share/elasticsearch/backup
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - ./shared-backup:/usr/share/elasticsearch/backup
     ports:
       - "9200:9200"
     networks:
@@ -56,6 +58,7 @@ services:
       - ./logs:/logs:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./filebeat-registry:/usr/share/filebeat/data
     networks:
       - elastic
     command: filebeat -e --strict.perms=false

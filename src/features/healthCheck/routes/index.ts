@@ -5,9 +5,10 @@ import logger from "../../../utils/logger";
 
 const router = express.Router();
 
-router.get("/", async (_req: Request, res: Response, _next: NextFunction) => {
+router.get("/", async (req: Request, res: Response, _next: NextFunction) => {
   try {
     // Option 1: Light ping check
+
     await elasticClient.ping();
 
     // Option 2: More detailed cluster health
@@ -16,20 +17,25 @@ router.get("/", async (_req: Request, res: Response, _next: NextFunction) => {
     const isHealthy = ["green", "yellow"].includes(health.status); // yellow is acceptable in single-node
 
     if (isHealthy) {
-      logger.info(health);
+      logger.info("Server is healthy", { req, res, health });
       res.status(200).json({
         status: "ok",
         elasticsearch: health,
       });
     } else {
-      logger.error(health);
+      logger.error("Server is unhealthy", { req, res, health });
       res.status(503).json({
         status: "unhealthy",
         elasticsearch: health,
       });
     }
   } catch (error) {
-    logger.error(error);
+    if (error instanceof Error)
+      logger.error("❌ Failed to connect to Elasticsearch", {
+        error: { stack: error.stack, name: error.name, message: error.message },
+        req,
+        res,
+      });
     res.status(500).json({
       status: "error",
       message: "❌ Failed to connect to Elasticsearch",

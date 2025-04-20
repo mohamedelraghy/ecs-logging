@@ -136,3 +136,6 @@ dist
 .pnp.*
 
 .vscode
+
+filebeat-registry/
+shared-backup
