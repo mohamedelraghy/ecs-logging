@@ -1,7 +1,9 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
-import { createServer } from "http";
+import { createServer } from "https";
 
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import client from "./config/db/elasticsearch";
 import routes from "./routes";
 import { initWebSocketServer } from "./websocket";
@@ -9,7 +11,13 @@ import { initWebSocketServer } from "./websocket";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const server = createServer(app);
+const server = createServer(
+  {
+    cert: readFileSync(resolve(__dirname, "../localhost.pem")),
+    key: readFileSync(resolve(__dirname, "../localhost-key.pem")),
+  },
+  app
+);
 initWebSocketServer(server);
 
 // Middleware to parse JSON request bodies
