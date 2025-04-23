@@ -19,13 +19,13 @@ export const healthCheckController = async (
     const isHealthy = ["green", "yellow"].includes(health.status); // yellow is acceptable in single-node
 
     if (isHealthy) {
-      logger.info("Server is healthy", { req, res, health });
+      logger.info("Server is healthy", { req, res, health, geo: req.geo });
       res.status(200).json({
         status: "ok",
         elasticsearch: health,
       });
     } else {
-      logger.error("Server is unhealthy", { req, res, health });
+      logger.error("Server is unhealthy", { req, res, health, geo: req.geo });
       res.status(503).json({
         status: "unhealthy",
         elasticsearch: health,
@@ -37,6 +37,7 @@ export const healthCheckController = async (
         error: { stack: error.stack, name: error.name, message: error.message },
         req,
         res,
+        geo: req.geo,
       });
     res.status(500).json({
       status: "error",

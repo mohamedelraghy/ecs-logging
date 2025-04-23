@@ -6,6 +6,18 @@ import client from "./config/db/elasticsearch";
 import routes from "./routes";
 import { initWebSocketServer } from "./websocket";
 
+function getRandomLatLngInKuwait(): { lat: number; lng: number } {
+  const latMin = 28.5;
+  const latMax = 30.0;
+  const lngMin = 46.5;
+  const lngMax = 48.5;
+
+  const lat = Math.random() * (latMax - latMin) + latMin;
+  const lng = Math.random() * (lngMax - lngMin) + lngMin;
+
+  return { lat, lng };
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -14,6 +26,14 @@ initWebSocketServer(server);
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+
+app.use((req: Request, res: Response, next) => {
+  req.geo = {
+    location: { ...getRandomLatLngInKuwait() },
+  };
+
+  next();
+});
 
 app.use("/api/v1", routes);
 
