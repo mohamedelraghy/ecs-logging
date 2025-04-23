@@ -141,3 +141,5 @@ filebeat-registry/
 shared-backup
 
 .DS_Store
+
+*.pem
