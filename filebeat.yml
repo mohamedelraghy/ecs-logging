@@ -1,14 +1,16 @@
 filebeat.inputs:
-  - type: log
+  - type: filestream
     enabled: true
     paths:
       - /logs/*.log
     fields:
       log_type: express-app
     fields_under_root: true
-    json.keys_under_root: true
-    json.add_error_key: true
-    json.message_key: message
+    processors:
+      - decode_json_fields:
+          fields: ["message"]
+          target: ""
+          overwrite_keys: true
 
 filebeat.modules:
   - module: system
@@ -18,14 +20,13 @@ filebeat.modules:
       enabled: true
 
 output.elasticsearch:
-  hosts:
-    ["https://993932b7dc704256a38e27292d46ffb3.us-central1.gcp.cloud.es.io:443"]
+  hosts: ["https://elastic.dev.bbext.digital:443"]
   username: "elastic"
-  password: "S9WjLRWpwnOpqoyJis1LCzIq"
+  password: "i05s0UtH5CC87eF1n48Zl0HL"
   indices:
     - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
 
 setup.kibana:
-  host: "http://kib01:5601"
+  host: "https://kibana.dev.bbext.digital"
 
 logging.level: info
