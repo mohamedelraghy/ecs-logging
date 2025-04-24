@@ -35,33 +35,33 @@ services:
   #   networks:
   #     - elastic
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:9.0.0
-    container_name: kib01
-    # depends_on:
-    #   - elasticsearch
-    environment:
-      - SERVER_NAME=kibana
-      - ELASTICSEARCH_HOSTS=https://993932b7dc704256a38e27292d46ffb3.us-central1.gcp.cloud.es.io:443
-      - ELASTICSEARCH_SERVICEACCOUNTTOKEN=AAEAAWVsYXN0aWMva2liYW5hL3Rva2VuXy1TT2hVcFlCSmNZZXh1Ylh5cmZNOlFUUWIxRFhiVEJpby1fR2lTVVZmZ3c
-    ports:
-      - "5601:5601"
-    networks:
-      - elastic
+  # kibana:
+  # image: docker.elastic.co/kibana/kibana:9.0.0
+  # container_name: kib01
+  # # depends_on:
+  # #   - elasticsearch
+  # environment:
+  #   - SERVER_NAME=kibana
+  #   - ELASTICSEARCH_HOSTS=https://elastic.dev.bbext.digital
+  #   # - ELASTICSEARCH_SERVICEACCOUNTTOKEN=AAEAAWVsYXN0aWMva2liYW5hL3Rva2VuXy1TT2hVcFlCSmNZZXh1Ylh5cmZNOlFUUWIxRFhiVEJpby1fR2lTVVZmZ3c
+  # ports:
+  #   - "5601:5601"
+  # networks:
+  #   - elastic
 
   filebeat:
-    image: docker.elastic.co/beats/filebeat:8.17.0
+    image: docker.elastic.co/beats/filebeat:9.0.0
     container_name: filebeat
     user: root
+    command: filebeat -e --strict.perms=false
     volumes:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - ./logs:/logs:ro
+      - ./logs:/logs:ro # Your application logs
+      - ./filebeat-registry:/usr/share/filebeat/data # Persist registry state
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./filebeat-registry:/usr/share/filebeat/data
     networks:
       - elastic
-    command: filebeat -e --strict.perms=false
 
 volumes:
   esdata:
