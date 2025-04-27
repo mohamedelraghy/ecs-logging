@@ -23,14 +23,14 @@
     "@types/express": "^5.0.1",
     "@types/ws": "^8.18.1",
     "concurrently": "^9.1.2",
-    "dotenv": "^16.4.7",
-    "nodemon": "^3.1.9",
+    "dotenv": "^16.5.0",
+    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "@elastic/ecs-winston-format": "^1.5.3",
-    "@elastic/elasticsearch": "^8.17.1",
+    "@elastic/elasticsearch": "^9.0.0",
     "express": "^5.1.0",
     "path": "^0.12.7",
     "winston": "^3.17.0",

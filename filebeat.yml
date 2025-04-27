@@ -21,7 +21,7 @@ filebeat.modules:
 
 output.elasticsearch:
   hosts: ["https://elastic.dev.bbext.digital:443"]
-  username: "elastic"
+  username: "dev"
   password: "i05s0UtH5CC87eF1n48Zl0HL"
   indices:
     - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
